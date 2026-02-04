@@ -23,10 +23,52 @@ env:
   BUILD_PATH: "." # Default to repository root
 
 jobs:
+  # Test job - runs E2E tests before deployment
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: ./package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Setup Sanity environment variables
+        run: |
+          echo "VITE_SANITY_PROJECT_ID=${{ secrets.SANITY_PROJECT_ID }}" >> $GITHUB_ENV
+          echo "VITE_SANITY_DATASET=production" >> $GITHUB_ENV
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Run Playwright tests
+        run: npm run test
+        working-directory: ${{ env.BUILD_PATH }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
   # Build job
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
