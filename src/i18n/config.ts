@@ -27,7 +27,10 @@ export function getLanguageFromPath(pathname: string): SupportedLanguage {
 }
 
 export function localizePath(pathname: string, lang: SupportedLanguage): string {
-  // Remove base path if present (e.g., /tech-blog)
+  // Only handle language prefix, NOT the base path
+  // The base path will be added by the caller
+
+  // Remove base path if present to work with clean paths
   const basePath = getBasePath();
   let pathWithoutBase = pathname;
   if (basePath && pathname.startsWith(basePath)) {
@@ -41,19 +44,15 @@ export function localizePath(pathname: string, lang: SupportedLanguage): string 
     segments.shift();
   }
 
-  // Build the localized path
+  // Build the path with language prefix only
   if (segments.length === 0) {
-    // Root path
-    const langPath = lang === defaultLanguage ? '/' : `/${lang}/`;
-    return basePath ? `${basePath}${langPath}` : langPath;
+    // Root path - no trailing slash for default language
+    return lang === defaultLanguage ? '/' : `/${lang}/`;
   }
 
-  // Non-root path with language prefix
+  // Non-root path
   const langPrefix = lang === defaultLanguage ? '' : `/${lang}`;
-  const path = segments.join('/');
-  const fullPath = `${langPrefix}/${path}`;
-
-  return basePath ? `${basePath}${fullPath}` : fullPath;
+  return `${langPrefix}/${segments.join('/')}`;
 }
 
 export function removeLanguagePrefix(pathname: string): string {
