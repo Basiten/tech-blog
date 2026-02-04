@@ -32,7 +32,7 @@ const pageDescription = 'Welcome to my blog'
       </div>
     ) : (
       <div class="grid gap-6 md:grid-cols-1">
-        {posts.map((post) => (
+        {posts.map((post: any) => (
           <BlogCard
             title={post.title}
             slug={post.slug.current}

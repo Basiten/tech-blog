@@ -1,5 +1,5 @@
 ---
-import type { PortableTextBlock } from '@sanity/types'
+import type { PortableTextBlock, PortableTextTextBlock } from '@sanity/types'
 
 interface Props {
   blocks: PortableTextBlock[]
@@ -8,9 +8,10 @@ interface Props {
 const { blocks } = Astro.props
 
 function renderBlock(block: PortableTextBlock): string {
-  if (!block.children || block.children.length === 0) return ''
+  const children = (block as PortableTextTextBlock).children
+  if (!children || children.length === 0) return ''
 
-  const text = block.children.map((child) => child.text).join('')
+  const text = children.map((child) => child.text).join('')
 
   switch (block.style) {
     case 'h1':

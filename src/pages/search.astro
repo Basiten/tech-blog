@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Search from '../components/Search.astro';
+import BlogSearch from '../components/Search.astro';
 import { getBlogPosts } from '../lib/sanity';
 
 const allPosts = await getBlogPosts();
@@ -34,7 +34,7 @@ const pageDescription = 'Search through all blog posts';
         </p>
       </div>
     ) : (
-      <Search posts={postsForSearch} />
+      <BlogSearch posts={postsForSearch} />
     )}
   </div>
 </BaseLayout>
