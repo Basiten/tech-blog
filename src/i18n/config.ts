@@ -41,19 +41,19 @@ export function localizePath(pathname: string, lang: SupportedLanguage): string 
     segments.shift();
   }
 
-  // Build the localized path with base path
+  // Build the localized path
   if (segments.length === 0) {
-    return lang === defaultLanguage ? '/' : `/${lang}/`;
+    // Root path
+    const langPath = lang === defaultLanguage ? '/' : `/${lang}/`;
+    return basePath ? `${basePath}${langPath}` : langPath;
   }
 
-  const localizedPath = `/${lang}/${segments.join('/')}/`;
+  // Non-root path with language prefix
+  const langPrefix = lang === defaultLanguage ? '' : `/${lang}`;
+  const path = segments.join('/');
+  const fullPath = `${langPrefix}/${path}`;
 
-  // Prepend base path if needed
-  if (basePath) {
-    return `${basePath}${localizedPath}`;
-  }
-
-  return localizedPath;
+  return basePath ? `${basePath}${fullPath}` : fullPath;
 }
 
 export function removeLanguagePrefix(pathname: string): string {
