@@ -15,7 +15,7 @@ export default defineConfig({
     sitemap(),
     tailwind(),
     sanity({
-      projectId: import.meta.env.SANITY_PROJECT_ID || 'tech-blog',
+      projectId: import.meta.env.SANITY_PROJECT_ID || 'fukvvqkf',
       dataset: 'production',
     }),
   ],

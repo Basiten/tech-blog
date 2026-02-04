@@ -1,5 +1,5 @@
 export const SANITY_CONFIG = {
-  projectId: 'tech-blog',
+  projectId: 'fukvvqkf',
   dataset: 'production',
   apiVersion: '2024-01-01',
   useCdn: false,
