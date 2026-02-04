@@ -12,6 +12,7 @@ interface Props {
 }
 
 const { posts } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <div class="search-container">
@@ -38,8 +39,10 @@ const { posts } = Astro.props;
   </div>
 </div>
 
-<script is:inline define:vars={{ posts }}>
+<script is:inline define:vars={{ posts, base }}>
   import Fuse from 'fuse.js';
+
+  const baseUrl = base;
 
   const fuse = new Fuse(posts, {
     keys: [
@@ -73,7 +76,7 @@ const { posts } = Astro.props;
 
     const html = results.map(post => `
       <article class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-200">
-        <a href="/blog/${post.slug}" class="block group">
+        <a href="${baseUrl}/blog/${post.slug}" class="block group">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
             ${post.title}
           </h2>
