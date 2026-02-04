@@ -1,0 +1,27 @@
+{
+  "name": "technical-blog",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@sanity/astro": "^3.2.11",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "fuse.js": "^7.1.0",
+    "sharp": "^0.34.3",
+    "shiki": "^3.22.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0"
+  }
+}
