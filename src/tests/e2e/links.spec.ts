@@ -15,17 +15,20 @@ test.describe('Link Validation', () => {
 
   testedPages.forEach(({ url, name }) => {
     test(`"${name}" page should load without errors`, async ({ page }) => {
-      const response = await page.goto(url);
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded' });
       expect(response?.status()).toBeLessThan(500);
     });
   });
 
   test('internal links should exist on home page', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     // Check that navigation links exist
-    await expect(page.locator('a[href*="/about" i]')).toHaveCountGreaterThan(0);
-    await expect(page.locator('a[href*="/search" i]')).toHaveCountGreaterThan(0);
+    const aboutCount = await page.locator('a[href*="/about" i]').count();
+    const searchCount = await page.locator('a[href*="/search" i]').count();
+
+    expect(aboutCount).toBeGreaterThan(0);
+    expect(searchCount).toBeGreaterThan(0);
   });
 
   test('should not have duplicate base paths in URLs', async ({ page }) => {
@@ -33,7 +36,7 @@ test.describe('Link Validation', () => {
     const pages = ['/', '/about', '/search', '/zh/', '/zh/about', '/zh/search'];
 
     for (const pageUrl of pages) {
-      await page.goto(pageUrl);
+      await page.goto(pageUrl, { waitUntil: 'domcontentloaded' });
       const currentUrl = page.url();
 
       // Check for duplicate base path
@@ -47,17 +50,19 @@ test.describe('Link Validation', () => {
   });
 
   test('navigation links should work', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     // Test About link
     const aboutLink = page.locator('a[href*="/about" i]').first();
     await aboutLink.click();
+    await page.waitForLoadState('domcontentloaded');
     await expect(page).toHaveURL(/\/about/);
 
     // Test Search link
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const searchLink = page.locator('a[href*="/search" i]').first();
     await searchLink.click();
+    await page.waitForLoadState('domcontentloaded');
     await expect(page).toHaveURL(/\/search/);
   });
 });
