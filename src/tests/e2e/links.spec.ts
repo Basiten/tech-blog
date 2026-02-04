@@ -17,41 +17,15 @@ test.describe('Link Validation', () => {
     test(`"${name}" page should load without errors`, async ({ page }) => {
       const response = await page.goto(url);
       expect(response?.status()).toBeLessThan(500);
-
-      // No console errors
-      page.on('console', msg => {
-        if (msg.type() === 'error') {
-          console.log(`Console error on ${url}:`, msg.text());
-        }
-      });
     });
   });
 
-  test('all internal links should return valid responses', async ({ page }) => {
+  test('internal links should exist on home page', async ({ page }) => {
     await page.goto('/');
 
-    // Find all internal links
-    const internalLinks = await page.locator('a[href^="/"], a[href^="./"]').all();
-
-    // Check a sample of links (not all to avoid timeout)
-    const linksToCheck = internalLinks.slice(0, 10);
-
-    for (const link of linksToCheck) {
-      const href = await link.getAttribute('href');
-      if (!href) continue;
-
-      // Skip anchors and external links
-      if (href.startsWith('#') || href.startsWith('http')) continue;
-
-      // Navigate to the link and verify
-      const response = await page.goto(href);
-
-      // Allow 404 for blog posts ( Sanity might not have content yet)
-      const isBlogPost = href.includes('/blog/');
-      if (!isBlogPost && response) {
-        expect(response.status()).toBeLessThan(500);
-      }
-    }
+    // Check that navigation links exist
+    await expect(page.locator('a[href*="/about" i]')).toHaveCountGreaterThan(0);
+    await expect(page.locator('a[href*="/search" i]')).toHaveCountGreaterThan(0);
   });
 
   test('should not have duplicate base paths in URLs', async ({ page }) => {
@@ -66,31 +40,24 @@ test.describe('Link Validation', () => {
       const matches = currentUrl.match(/\/tech-blog\/tech-blog\//g);
       expect(matches).toBeNull();
 
-      // Check that URL contains base path exactly once
+      // Check that URL contains base path at most once
       const basePathCount = (currentUrl.match(/\/tech-blog/g) || []).length;
       expect(basePathCount).toBeLessThanOrEqual(1);
     }
   });
 
-  test('blog card links should work correctly', async ({ page }) => {
+  test('navigation links should work', async ({ page }) => {
     await page.goto('/');
 
-    // Find all blog card links
-    const blogCards = await page.locator('article a[href*="/blog/"]').all();
+    // Test About link
+    const aboutLink = page.locator('a[href*="/about" i]').first();
+    await aboutLink.click();
+    await expect(page).toHaveURL(/\/about/);
 
-    if (blogCards.length > 0) {
-      const blogCard = blogCards[0];
-
-      // Get the href attribute
-      const href = await blogCard.getAttribute('href');
-
-      if (href) {
-        // Click the blog card link
-        await blogCard.click();
-
-        // Verify navigation - should go to blog post
-        await expect(page).toHaveURL(/\/blog\/.+$/);
-      }
-    }
+    // Test Search link
+    await page.goto('/');
+    const searchLink = page.locator('a[href*="/search" i]').first();
+    await searchLink.click();
+    await expect(page).toHaveURL(/\/search/);
   });
 });

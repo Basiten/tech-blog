@@ -14,7 +14,8 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
   },
   use: {
-    baseURL: 'http://localhost:4321',
+    // baseURL must match the base path used in Astro build
+    baseURL: 'http://localhost:4321/tech-blog',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },
