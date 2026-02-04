@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getBlogPost } from '../../lib/sanity';
+import FormattedDate from '../../components/FormattedDate.astro';
+import PortableText from '../../components/PortableText.astro';
+
+export async function getStaticPaths() {
+  // This will be dynamically generated at build time
+  // For now, return an empty array and handle the route dynamically
+  return [];
+}
+
+const { slug } = Astro.params;
+const post = await getBlogPost(slug || '');
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const pageTitle = post.title;
+const pageDescription = post.excerpt || post.title;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        {post.title}
+      </h1>
+      <div class="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+        <time datetime={post.publishedAt}>
+          <FormattedDate date={post.publishedAt} />
+        </time>
+        {post.tags && post.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <a
+                href={`/tags/${tag.slug.current}`}
+                class="px-3 py-1 text-sm font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+              >
+                #{tag.name}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    {post.excerpt && (
+      <p class="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+        {post.excerpt}
+      </p>
+    )}
+
+    {post.content && post.content.length > 0 ? (
+      <PortableText blocks={post.content} />
+    ) : (
+      <p class="text-gray-600 dark:text-gray-400">No content available.</p>
+    )}
+  </article>
+</BaseLayout>
