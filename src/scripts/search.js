@@ -1,52 +1,7 @@
----
-interface Post {
-  title: string;
-  slug: string;
-  excerpt: string;
-  publishedAt: string;
-  tags: string[];
-}
+import Fuse from 'fuse.js';
 
-interface Props {
-  posts: Post[];
-  currentLang?: string;
-}
-
-const { posts, currentLang = 'en' } = Astro.props;
-const base = import.meta.env.BASE_URL;
----
-
-<div class="search-container">
-  <div class="mb-8">
-    <input
-      type="text"
-      id="search-input"
-      placeholder="Search for posts..."
-      class="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-      aria-label="Search posts"
-    />
-  </div>
-
-  <div id="search-results" class="space-y-6">
-    <p class="text-gray-600 dark:text-gray-400 text-center py-8">
-      Start typing to search...
-    </p>
-  </div>
-
-  <div id="no-results" class="hidden text-center py-12">
-    <p class="text-gray-600 dark:text-gray-400 text-lg">
-      No posts found matching your search.
-    </p>
-  </div>
-</div>
-
-<script type="module" data-posts={JSON.stringify(posts)} data-base={base} data-lang={currentLang}>
-  import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0';
-
-  const script = document.currentScript;
-  const posts = /** @type {any} */ (JSON.parse(script.dataset.posts || '[]'));
-  const baseUrl = script.dataset.base || '';
-  const currentLanguage = script.dataset.lang || 'en';
+export function initSearch(posts, baseUrl, currentLang) {
+  const currentLanguage = currentLang || 'en';
 
   const fuse = new Fuse(posts, {
     keys: [
@@ -80,7 +35,8 @@ const base = import.meta.env.BASE_URL;
 
     const html = results.map(post => {
       const blogPath = currentLanguage === 'en' ? '/blog/' : `/${currentLanguage}/blog/`;
-      return `<article class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-200">
+      return `
+      <article class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-200">
         <a href="${baseUrl}${blogPath}${post.slug}" class="block group">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             ${post.title}
@@ -101,8 +57,8 @@ const base = import.meta.env.BASE_URL;
             </div>
           ` : ''}
         </a>
-      </article>`;
-    }).join('');
+      </article>
+    `}).join('');
 
     searchResults.innerHTML = html;
     noResults.classList.add('hidden');
@@ -131,13 +87,4 @@ const base = import.meta.env.BASE_URL;
       }
     }, 300);
   });
-</script>
-
-<style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
+}

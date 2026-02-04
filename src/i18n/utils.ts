@@ -11,6 +11,8 @@ const translations = {
 
 export type TranslationKey = typeof translations.en;
 
+export type { SupportedLanguage };
+
 export function getTranslations(lang: SupportedLanguage): TranslationKey {
   return translations[lang] || translations.en;
 }
