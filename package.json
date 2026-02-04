@@ -2,7 +2,7 @@
   "name": "technical-blog",
   "type": "module",
   "version": "0.0.1",
-  "homepage": "https://sunqizhen.github.io",
+  "homepage": "https://basiten.github.io/tech-blog",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
