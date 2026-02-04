@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import BlogCard from '../components/BlogCard.astro'
-import { client } from '../lib/sanity'
-import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../i18n'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlogCard from '../../components/BlogCard.astro'
+import { client } from '../../lib/sanity'
+import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../../i18n'
 
 const posts = await client.fetch(`
   *[_type == 'blogPost'] | order(publishedAt desc) {
@@ -10,9 +10,8 @@ const posts = await client.fetch(`
   }
 `)
 
-// Get language from URL path
+const currentLang: SupportedLanguage = 'zh';
 const currentPath = Astro.url.pathname;
-const currentLang = getLanguageFromPath(currentPath);
 const base = getBasePath();
 const { t } = useTranslations(currentLang);
 

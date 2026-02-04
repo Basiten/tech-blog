@@ -1,10 +1,10 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
-import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../i18n'
+import AboutHeroImage from '../../assets/blog-placeholder-about.jpg';
+import Layout from '../../layouts/BlogPost.astro';
+import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../../i18n'
 
+const currentLang: SupportedLanguage = 'fr';
 const currentPath = Astro.url.pathname;
-const currentLang = getLanguageFromPath(currentPath);
 const base = getBasePath();
 const { t } = useTranslations(currentLang);
 ---

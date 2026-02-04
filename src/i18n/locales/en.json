@@ -1,0 +1,62 @@
+{
+  "language": "English",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "search": "Search"
+  },
+  "home": {
+    "title": "Home",
+    "description": "Welcome to my blog",
+    "welcome": "Welcome to My Blog",
+    "subtitle": "Explore my latest thoughts and ideas",
+    "noPosts": "No posts yet. Check back soon!"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "Get to know me - developer, writer, tech enthusiast",
+    "aboutHeading": "About Me",
+    "aboutText1": "Hi! I'm a passionate developer and technical writer who loves sharing knowledge about programming, web development, and software engineering best practices. I believe in the power of clear, accessible documentation and tutorials to help developers of all skill levels grow and succeed.",
+    "aboutText2": "When I'm not coding or writing, you can find me exploring new technologies, contributing to open-source projects, or engaging with the developer community on various platforms.",
+    "skillsHeading": "Skills & Expertise",
+    "skills": {
+      "frontend": "Frontend Development",
+      "backend": "Backend Development",
+      "devops": "DevOps & Tools",
+      "cms": "CMS & Content",
+      "testing": "Testing"
+    },
+    "contactHeading": "Get In Touch",
+    "contactText": "I'm always open to interesting conversations, collaborations, or feedback on my work. Feel free to reach out through any of these platforms:",
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "email": "Email"
+  },
+  "search": {
+    "title": "Search",
+    "description": "Search through all blog posts",
+    "heading": "Search Posts",
+    "subtitle": "Find articles by title, content, or tags",
+    "noPosts": "No posts available to search. Check back soon!",
+    "searchPlaceholder": "Search articles...",
+    "searchButton": "Search",
+    "noResults": "No results found",
+    "results": "results"
+  },
+  "blog": {
+    "readMore": "Read More",
+    "publishedOn": "Published on",
+    "tags": "Tags",
+    "allPosts": "All Posts",
+    "relatedPosts": "Related Posts"
+  },
+  "footer": {
+    "copyright": "Tech Blog. All rights reserved.",
+    "builtWith": "Built with",
+    "and": "&",
+    "rssFeed": "RSS Feed"
+  },
+  "languageSwitcher": {
+    "switchLanguage": "Switch Language"
+  }
+}

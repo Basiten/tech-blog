@@ -1,0 +1,62 @@
+{
+  "language": "中文",
+  "nav": {
+    "home": "首页",
+    "about": "关于",
+    "search": "搜索"
+  },
+  "home": {
+    "title": "首页",
+    "description": "欢迎来到我的博客",
+    "welcome": "欢迎来到我的博客",
+    "subtitle": "探索我的最新思想和想法",
+    "noPosts": "暂无文章。敬请期待！"
+  },
+  "about": {
+    "title": "关于我",
+    "description": "了解我 - 开发者、作家、技术爱好者",
+    "aboutHeading": "关于我",
+    "aboutText1": "嗨！我是一名充满热情的开发者和技术作家，喜欢分享关于编程、Web 开发和软件工程最佳实践的知识。我相信清晰、易懂的文档和教程的力量，能够帮助各个技能水平的开发者成长和成功。",
+    "aboutText2": "当我不在编码或写作时，你可以发现我在探索新技术，为开源项目做贡献，或在各种平台上与开发者社区互动。",
+    "skillsHeading": "技能与专长",
+    "skills": {
+      "frontend": "前端开发",
+      "backend": "后端开发",
+      "devops": "DevOps 与工具",
+      "cms": "CMS 与内容",
+      "testing": "测试"
+    },
+    "contactHeading": "联系我",
+    "contactText": "我总是乐于进行有趣的对话、合作或接受对我工作的反馈。请随时通过以下任何平台与我联系：",
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "email": "电子邮件"
+  },
+  "search": {
+    "title": "搜索",
+    "description": "搜索所有博客文章",
+    "heading": "搜索文章",
+    "subtitle": "按标题、内容或标签查找文章",
+    "noPosts": "没有可搜索的文章。敬请期待！",
+    "searchPlaceholder": "搜索文章...",
+    "searchButton": "搜索",
+    "noResults": "未找到结果",
+    "results": "个结果"
+  },
+  "blog": {
+    "readMore": "阅读更多",
+    "publishedOn": "发布于",
+    "tags": "标签",
+    "allPosts": "所有文章",
+    "relatedPosts": "相关文章"
+  },
+  "footer": {
+    "copyright": "技术博客。版权所有。",
+    "builtWith": "由",
+    "and": "和",
+    "rssFeed": "RSS 订阅"
+  },
+  "languageSwitcher": {
+    "switchLanguage": "切换语言"
+  }
+}

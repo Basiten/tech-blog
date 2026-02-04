@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import BlogSearch from '../components/Search.astro';
-import { getBlogPosts } from '../lib/sanity';
-import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogSearch from '../../components/Search.astro';
+import { getBlogPosts } from '../../lib/sanity';
+import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../../i18n';
 
 const allPosts = await getBlogPosts();
 const postsForSearch = allPosts.map(post => ({
@@ -13,8 +13,8 @@ const postsForSearch = allPosts.map(post => ({
   tags: post.tags?.map(tag => tag.name) || []
 }));
 
+const currentLang: SupportedLanguage = 'zh';
 const currentPath = Astro.url.pathname;
-const currentLang = getLanguageFromPath(currentPath);
 const base = getBasePath();
 const { t } = useTranslations(currentLang);
 

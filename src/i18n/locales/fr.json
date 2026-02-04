@@ -1,0 +1,62 @@
+{
+  "language": "Français",
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "search": "Recherche"
+  },
+  "home": {
+    "title": "Accueil",
+    "description": "Bienvenue sur mon blog",
+    "welcome": "Bienvenue sur mon blog",
+    "subtitle": "Explorez mes dernières réflexions et idées",
+    "noPosts": "Aucun article pour le moment. Revenez bientôt !"
+  },
+  "about": {
+    "title": "À propos de moi",
+    "description": "Faites ma connaissance - développeur, rédacteur, passionné de technologie",
+    "aboutHeading": "À propos de moi",
+    "aboutText1": "Salut ! Je suis un développeur passionné et rédacteur technique qui aime partager des connaissances sur la programmation, le développement web et les meilleures pratiques en génie logiciel. Je crois au pouvoir de la documentation et des tutoriels clairs et accessibles pour aider les développeurs de tous niveaux à grandir et à réussir.",
+    "aboutText2": "Quand je ne code pas ou n'écris pas, vous pouvez me trouver à explorer de nouvelles technologies, à contribuer à des projets open source, ou à interagir avec la communauté des développeurs sur diverses plateformes.",
+    "skillsHeading": "Compétences & Expertise",
+    "skills": {
+      "frontend": "Développement Frontend",
+      "backend": "Développement Backend",
+      "devops": "DevOps & Outils",
+      "cms": "CMS & Contenu",
+      "testing": "Tests"
+    },
+    "contactHeading": "Entrer en contact",
+    "contactText": "Je suis toujours ouvert à des conversations intéressantes, des collaborations ou des retours sur mon travail. N'hésitez pas à me contacter via l'une de ces plateformes :",
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "email": "E-mail"
+  },
+  "search": {
+    "title": "Recherche",
+    "description": "Rechercher dans tous les articles de blog",
+    "heading": "Rechercher des articles",
+    "subtitle": "Trouver des articles par titre, contenu ou étiquettes",
+    "noPosts": "Aucun article disponible pour la recherche. Revenez bientôt !",
+    "searchPlaceholder": "Rechercher des articles...",
+    "searchButton": "Rechercher",
+    "noResults": "Aucun résultat trouvé",
+    "results": "résultats"
+  },
+  "blog": {
+    "readMore": "Lire la suite",
+    "publishedOn": "Publié le",
+    "tags": "Étiquettes",
+    "allPosts": "Tous les articles",
+    "relatedPosts": "Articles connexes"
+  },
+  "footer": {
+    "copyright": "Blog Technique. Tous droits réservés.",
+    "builtWith": "Construit avec",
+    "and": "et",
+    "rssFeed": "Flux RSS"
+  },
+  "languageSwitcher": {
+    "switchLanguage": "Changer de langue"
+  }
+}

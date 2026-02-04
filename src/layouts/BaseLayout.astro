@@ -2,17 +2,22 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getLanguageFromPath, getBasePath, type SupportedLanguage } from '../i18n';
 
 interface Props {
 	title: string;
 	description: string;
+	currentPath?: string;
+	currentLang?: SupportedLanguage;
 }
 
-const { title, description } = Astro.props;
+const { title, description, currentPath = '/', currentLang = 'en' } = Astro.props;
+const base = getBasePath();
+const langAttribute = currentLang === 'zh' ? 'zh-CN' : currentLang === 'fr' ? 'fr' : 'en';
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang={langAttribute} class="scroll-smooth">
 	<head>
 		<BaseHead title={title} description={description} />
 		<script is:inline>
@@ -34,10 +39,10 @@ const { title, description } = Astro.props;
 	</head>
 
 	<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
-		<Header />
+		<Header currentPath={currentPath} currentLang={currentLang} />
 		<main class="flex-1 max-w-4xl mx-auto px-4 py-8 w-full">
 			<slot />
 		</main>
-		<Footer />
+		<Footer currentLang={currentLang} />
 	</body>
 </html>
