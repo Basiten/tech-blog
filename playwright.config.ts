@@ -7,15 +7,16 @@ export default defineConfig({
   retries: 0,
   timeout: 10000,
   // Start dev server before running tests
+  // Use astro preview which handles base path correctly
   webServer: {
-    command: 'npm run build && npx serve dist -l 4321',
+    command: 'npm run build && npx astro preview --port 4321 --host localhost',
     port: 4321,
     timeout: 120000,
     reuseExistingServer: !process.env.CI,
   },
   use: {
-    // baseURL must match the base path used in Astro build
-    baseURL: 'http://localhost:4321/tech-blog',
+    // baseURL: astro preview serves from dist with correct base path handling
+    baseURL: 'http://localhost:4321',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },
