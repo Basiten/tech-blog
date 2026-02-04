@@ -27,15 +27,32 @@ export function getLanguageFromPath(pathname: string): SupportedLanguage {
 }
 
 export function localizePath(pathname: string, lang: SupportedLanguage): string {
-  const segments = pathname.split('/').filter(Boolean);
+  // Remove base path if present (e.g., /tech-blog)
+  const basePath = getBasePath();
+  let pathWithoutBase = pathname;
+  if (basePath && pathname.startsWith(basePath)) {
+    pathWithoutBase = pathname.slice(basePath.length) || '/';
+  }
+
+  const segments = pathWithoutBase.split('/').filter(Boolean);
 
   // Remove existing language prefix if present
   if (segments.length > 0 && supportedLanguages.includes(segments[0] as SupportedLanguage)) {
     segments.shift();
   }
 
-  // Add new language prefix
-  const localizedPath = segments.length > 0 ? `/${lang}/${segments.join('/')}` : `/${lang}`;
+  // Build the localized path with base path
+  if (segments.length === 0) {
+    return lang === defaultLanguage ? '/' : `/${lang}/`;
+  }
+
+  const localizedPath = `/${lang}/${segments.join('/')}/`;
+
+  // Prepend base path if needed
+  if (basePath) {
+    return `${basePath}${localizedPath}`;
+  }
+
   return localizedPath;
 }
 

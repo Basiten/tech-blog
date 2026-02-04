@@ -9,9 +9,10 @@ interface Post {
 
 interface Props {
   posts: Post[];
+  currentLang?: string;
 }
 
-const { posts } = Astro.props;
+const { posts, currentLang = 'en' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -39,10 +40,11 @@ const base = import.meta.env.BASE_URL;
   </div>
 </div>
 
-<script is:inline define:vars={{ posts, base }}>
+<script is:inline define:vars={{ posts, base, currentLang }}>
   import Fuse from 'fuse.js';
 
   const baseUrl = base;
+  const currentLanguage = currentLang || 'en';
 
   const fuse = new Fuse(posts, {
     keys: [
@@ -74,9 +76,11 @@ const base = import.meta.env.BASE_URL;
       return;
     }
 
-    const html = results.map(post => `
+    const html = results.map(post => {
+      const blogPath = currentLanguage === 'en' ? '/blog/' : `/${currentLanguage}/blog/`;
+      return `
       <article class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-200">
-        <a href="${baseUrl}/blog/${post.slug}" class="block group">
+        <a href="${baseUrl}${blogPath}${post.slug}" class="block group">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
             ${post.title}
           </h2>

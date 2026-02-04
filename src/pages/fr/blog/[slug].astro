@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getBlogPost } from '../../lib/sanity';
-import FormattedDate from '../../components/FormattedDate.astro';
-import PortableText from '../../components/PortableText.astro';
-import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getBlogPost } from '../../../lib/sanity';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import PortableText from '../../../components/PortableText.astro';
+import { useTranslations, getLanguageFromPath, getBasePath, type SupportedLanguage } from '../../../i18n';
 
 export async function getStaticPaths() {
   return [];
@@ -39,7 +39,7 @@ const pageDescription = post.excerpt || post.title;
           <div class="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
               <a
-                href={`${base}${currentLang === 'en' ? '' : '/' + currentLang}/tags/${tag.slug.current}`}
+                href={`${base}/${currentLang}/tags/${tag.slug.current}`}
                 class="px-3 py-1 text-sm font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
               >
                 #{tag.name}
