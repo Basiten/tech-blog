@@ -2,12 +2,14 @@
   "name": "technical-blog",
   "type": "module",
   "version": "0.0.1",
+  "homepage": "https://sunqizhen.github.io",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
