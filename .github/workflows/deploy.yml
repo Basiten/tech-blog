@@ -4,6 +4,9 @@ on:
   # Trigger the workflow every time a new commit is pushed to the main branch
   push:
     branches: [main, master]
+  # Run tests on pull requests (but don't deploy)
+  pull_request:
+    branches: [main, master]
   # Allow manual deployment from GitHub Actions tab
   workflow_dispatch:
 
@@ -105,8 +108,9 @@ jobs:
         with:
           path: ${{ env.BUILD_PATH }}/dist
 
-  # Deploy job
+  # Deploy job (only on push to main, not on PRs)
   deploy:
+    if: github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
