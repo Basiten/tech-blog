@@ -6,6 +6,13 @@ export default defineConfig({
   forbidOnly: false,
   retries: 0,
   timeout: 10000,
+  // Start dev server before running tests
+  webServer: {
+    command: 'npm run build && npx serve dist -l 4321',
+    port: 4321,
+    timeout: 120000,
+    reuseExistingServer: !process.env.CI,
+  },
   use: {
     baseURL: 'http://localhost:4321',
     screenshot: 'only-on-failure',
