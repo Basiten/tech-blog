@@ -1,14 +1,14 @@
-import { defineConfig } from '@sanity/client'
+import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
-import { schemaTypes } from './sanity/schemas'
+import { schema } from './sanity/schemas'
+import { SANITY_CONFIG } from './src/lib/sanityConfig'
 
 export default defineConfig({
-  projectId: 'tech-blog',
-  dataset: 'production',
+  ...SANITY_CONFIG,
   title: 'Tech Blog',
   basePath: '/studio',
   plugins: [structureTool()],
   schema: {
-    types: schemaTypes,
+    types: schema.types,
   },
 })
