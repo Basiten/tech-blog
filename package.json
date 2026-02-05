@@ -12,7 +12,8 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug"
+    "test:debug": "playwright test --debug",
+    "post": "node scripts/add-sanity-post.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
