@@ -7,9 +7,9 @@ export default defineConfig({
   retries: 0,
   timeout: 10000,
   // Start dev server before running tests
-  // Use astro preview which handles base path correctly
+  // Use serve for simpler static file serving
   webServer: {
-    command: 'npm run build && npx astro preview --port 4321 --host localhost',
+    command: 'npm run build && npx serve dist -l 4321',
     port: 4321,
     timeout: 120000,
     reuseExistingServer: !process.env.CI,
