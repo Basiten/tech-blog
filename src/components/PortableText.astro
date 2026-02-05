@@ -1,5 +1,5 @@
 ---
-import type { PortableTextBlock, PortableTextTextBlock } from '@sanity/types'
+import type { PortableTextBlock, PortableTextTextBlock, PortableTextMarkDefinition } from '@sanity/types'
 
 interface Props {
   blocks: PortableTextBlock[]
@@ -7,11 +7,50 @@ interface Props {
 
 const { blocks } = Astro.props
 
+function renderMarks(text: string, marks: string[] = [], markDefs: PortableTextMarkDefinition[] = []): string {
+  let result = text
+
+  for (const mark of marks || []) {
+    switch (mark) {
+      case 'strong':
+        result = `<strong>${result}</strong>`
+        break
+      case 'em':
+        result = `<em>${result}</em>`
+        break
+      case 'code':
+        result = `<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono text-pink-600 dark:text-pink-400">${result}</code>`
+        break
+      case 'underline':
+        result = `<u>${result}</u>`
+        break
+      case 'strike-through':
+        result = `<s>${result}</s>`
+        break
+      default:
+        // Check if it's a link mark
+        const markDef = markDefs?.find((md: any) => md._key === mark)
+        if (markDef && markDef._type === 'link') {
+          result = `<a href="${markDef.href}" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">${result}</a>`
+        }
+    }
+  }
+
+  return result
+}
+
 function renderBlock(block: PortableTextBlock): string {
   const children = (block as PortableTextTextBlock).children
+  const markDefs = (block as any).markDefs || []
   if (!children || children.length === 0) return ''
 
-  const text = children.map((child) => child.text).join('')
+  // Render each child with its marks
+  const text = children.map((child: any) => {
+    if (child.text) {
+      return renderMarks(child.text, child.marks, markDefs)
+    }
+    return ''
+  }).join('')
 
   switch (block.style) {
     case 'h1':
@@ -36,12 +75,21 @@ function renderBlock(block: PortableTextBlock): string {
       return `<p class="mb-4 leading-relaxed">${text}</p>`
   }
 }
+
+// Handle code blocks separately
+function renderBlockContent(block: PortableTextBlock): string {
+  if ((block as any)._type === 'code') {
+    const codeBlock = block as any
+    return `<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"><code class="text-sm">${codeBlock.code?.replace(/</g, '&lt;').replace(/>/g, '&gt;') || ''}</code></pre>`
+  }
+  return renderBlock(block)
+}
 ---
 
-<div class="prose prose-lg dark:prose-invert max-w-none">
+<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:font-bold prose-em:italic prose-code:text-pink-600 dark:prose-code:text-pink-400">
   {
     blocks.map((block) => (
-      <div set:html={renderBlock(block)} />
+      <div set:html={renderBlockContent(block)} />
     ))
   }
 </div>
