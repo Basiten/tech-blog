@@ -142,50 +142,65 @@ function markdownToPortableText(markdown) {
       if (match) {
         const level = Math.min(match[1].length, 6)
         const text = match[2]
+        const { children, markDefs } = parseInlineFormattingToChildren(text)
         blocks.push({
           _type: 'block',
           style: `h${level}`,
-          children: parseInlineFormattingToChildren(text)
+          children: children,
+          markDefs: markDefs.length > 0 ? markDefs : undefined
         })
         i++
         continue
       }
     }
 
-    // Lists
+    // Lists - parse inline formatting within items
     if (trimmedLine.startsWith('- ') || trimmedLine.match(/^\d+\.\s/)) {
       const listItems = []
+      const listMarkDefs = []
+      const isNumbered = trimmedLine.match(/^\d+\./)
+
       while (i < lines.length) {
         const listLine = lines[i].trim()
         if (!listLine.startsWith('- ') && !listLine.match(/^\d+\.\s/)) break
 
         const text = listLine.replace(/^[-\d.]\s+/, '')
-        listItems.push({ text })
+        // Parse inline formatting for each list item
+        const { children, markDefs } = parseInlineFormattingToChildren(text)
+        listItems.push(...children)
+        listMarkDefs.push(...markDefs)
         i++
       }
 
-      const isNumbered = lines[i - 1].match(/^\d+\./)
       blocks.push({
         _type: 'block',
         listItem: isNumbered ? 'number' : 'bullet',
         level: 1,
-        children: listItems
+        children: listItems,
+        markDefs: listMarkDefs.length > 0 ? listMarkDefs : undefined
       })
       continue
     }
 
     // Regular paragraph - collect all non-empty lines
     let paragraphText = ''
-    while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().startsWith('#') && !lines[i].trim().startsWith('|') && !lines[i].trim().startsWith('```') && !lines[i].trim().startsWith('- ')) {
-      paragraphText += (paragraphText ? ' ' : '') + lines[i].trim()
+    while (i < lines.length) {
+      const trimmed = lines[i].trim()
+      // Stop at empty line or special patterns
+      if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('|') || trimmed.startsWith('```') || trimmed.startsWith('- ') || trimmed.match(/^\d+\.\s/)) {
+        break
+      }
+      paragraphText += (paragraphText ? ' ' : '') + trimmed
       i++
     }
 
     if (paragraphText) {
+      const { children, markDefs } = parseInlineFormattingToChildren(paragraphText)
       blocks.push({
         _type: 'block',
         style: 'normal',
-        children: parseInlineFormattingToChildren(paragraphText)
+        children: children,
+        markDefs: markDefs.length > 0 ? markDefs : undefined
       })
     }
   }
@@ -194,17 +209,16 @@ function markdownToPortableText(markdown) {
 }
 
 /**
- * Parse inline formatting and return children array
+ * Parse inline formatting and return {children, markDefs}
  * Handles: **bold**, *italic*, `code`, [links](url)
  */
 function parseInlineFormattingToChildren(text) {
   const children = []
+  const markDefs = []
   let remaining = text
-  let markDefs = []
   let markKeyCounter = 0
 
   while (remaining.length > 0) {
-    // Try to match patterns in order
     let matched = false
 
     // Bold - **text** (handle consecutive bold)
@@ -244,11 +258,13 @@ function parseInlineFormattingToChildren(text) {
       }
     }
 
-    // Links - [text](url)
+    // Links - [text](url) - create unique markDef for each link
     if (!matched) {
       const linkMatch = remaining.match(/^\[([^\]]+?)\]\(([^)]+?)\)/)
       if (linkMatch) {
-        const markKey = `link${markKeyCounter++}`
+        // Create truly unique key using random string
+        const uniqueId = Math.random().toString(36).substring(2, 10)
+        const markKey = `link_${uniqueId}`
         markDefs.push({
           _type: 'link',
           _key: markKey,
@@ -279,12 +295,7 @@ function parseInlineFormattingToChildren(text) {
     }
   }
 
-  // Add markDefs to the last child for links
-  if (markDefs.length > 0 && children.length > 0) {
-    children[children.length - 1].markDefs = markDefs
-  }
-
-  return children
+  return { children, markDefs }
 }
 
 /**
