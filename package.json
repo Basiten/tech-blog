@@ -9,7 +9,6 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "deploy": "npm run build && gh-pages -d dist",
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
