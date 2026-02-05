@@ -16,7 +16,7 @@ export default defineConfig({
   },
   use: {
     // baseURL: astro preview serves from dist with correct base path handling
-    baseURL: 'http://localhost:4321',
+    baseURL: 'http://localhost:4321/tech-blog',
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },
