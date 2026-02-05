@@ -8,7 +8,7 @@
   "home": {
     "title": "Home",
     "description": "Welcome to my blog",
-    "welcome": "Welcome to My Blog",
+    "welcome": "Bastien's notebooks",
     "subtitle": "Explore my latest thoughts and ideas",
     "noPosts": "No posts yet. Check back soon!"
   },
@@ -51,7 +51,7 @@
     "relatedPosts": "Related Posts"
   },
   "footer": {
-    "copyright": "Tech Blog. All rights reserved.",
+    "copyright": "Bastien's notebooks. All rights reserved.",
     "builtWith": "Built with",
     "and": "&",
     "rssFeed": "RSS Feed"
