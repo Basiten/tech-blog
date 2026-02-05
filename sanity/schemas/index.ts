@@ -1,6 +1,7 @@
 import blogPost from './blogPost'
+import table from './table'
 import tag from './tag'
 
 export const schema = {
-  types: [blogPost, tag],
+  types: [blogPost, table, tag],
 }

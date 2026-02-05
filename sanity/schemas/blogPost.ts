@@ -9,7 +9,7 @@ export default {
     { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' }, validation: (Rule: Rule) => Rule.required() },
     { name: 'excerpt', title: 'Excerpt', type: 'text', rows: 3 },
     { name: 'publishedAt', title: 'Published At', type: 'datetime', initialValue: () => new Date().toISOString() },
-    { name: 'content', title: 'Content', type: 'array', of: [{ type: 'block' }], validation: (Rule: Rule) => Rule.required() },
+    { name: 'content', title: 'Content', type: 'array', of: [{ type: 'block' }, { type: 'table' }], validation: (Rule: Rule) => Rule.required() },
     { name: 'tags', title: 'Tags', type: 'array', of: [{ type: 'reference', to: { type: 'tag' } }] },
   ],
 }

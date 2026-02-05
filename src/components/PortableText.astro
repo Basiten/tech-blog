@@ -42,6 +42,12 @@ function renderMarks(text: string, marks: string[] = [], markDefs: PortableTextM
 function renderBlock(block: PortableTextBlock): string {
   const children = (block as PortableTextTextBlock).children
   const markDefs = (block as any).markDefs || []
+
+  // Handle custom HTML content (tables)
+  if ((block as any)._sanityJSX && (block as any)._sanityJSX[0]?._type === 'html') {
+    return (block as any)._sanityJSX[0].children[0].text || ''
+  }
+
   if (!children || children.length === 0) return ''
 
   // Render each child with its marks
@@ -78,15 +84,22 @@ function renderBlock(block: PortableTextBlock): string {
 
 // Handle code blocks separately
 function renderBlockContent(block: PortableTextBlock): string {
+  // Custom table blocks
+  if ((block as any)._type === 'table') {
+    return (block as any).html || ''
+  }
+
+  // Code blocks
   if ((block as any)._type === 'code') {
     const codeBlock = block as any
     return `<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"><code class="text-sm">${codeBlock.code?.replace(/</g, '&lt;').replace(/>/g, '&gt;') || ''}</code></pre>`
   }
+
   return renderBlock(block)
 }
 ---
 
-<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:font-bold prose-em:italic prose-code:text-pink-600 dark:prose-code:text-pink-400">
+<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:font-bold prose-em:italic prose-code:text-pink-600 dark:prose-code:text-pink-400 prose-th:bg-gray-100 dark:prose-th:bg-gray-800 prose-th:px-4 prose-th:py-2 prose-td:border-t prose-td:border-gray-200 dark:prose-td:border-gray-700">
   {
     blocks.map((block) => (
       <div set:html={renderBlockContent(block)} />
